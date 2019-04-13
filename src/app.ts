@@ -1,7 +1,10 @@
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express, { Request, NextFunction } from 'express';
+import http from 'http';
+
 import apis from './apis';
+import { init } from '@@modules/io';
 
 const port = 4001;
 const app = express();
@@ -12,9 +15,12 @@ app.use(bodyParser.json());
 app.use(log());
 app.use(apis());
 app.use(noMatch());
-app.listen(port, () => {
+
+const server = http.createServer(app);
+init(server);
+server.listen(port, () => {
   console.log('App is listening on port: %s', port);
-});
+})
 
 function log() {
   return (req, res, next: NextFunction) => {

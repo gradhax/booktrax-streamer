@@ -25,6 +25,7 @@
     "babel-plugin-module-resolver": "^3.2.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
   }
 }
