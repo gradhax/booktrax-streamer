@@ -23,7 +23,7 @@ the fall of Napoleon.
 
   const { documentSentiment, sentences } = await analyze(text) as any;
   const voicePromise = sentences.map(({ text }, idx) => {
-    text.$id = idx;
+    text.$requestId = idx;
 
     return synthesize({
       requestId: idx,

@@ -67,7 +67,7 @@ export function synthesize({
         if (data.AudioStream instanceof Buffer) {
           resolve({
             data,
-            requestId,
+            $requestId: requestId,
             ts: Date.now(),
           });
         } else {
