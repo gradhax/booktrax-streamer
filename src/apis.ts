@@ -1,5 +1,5 @@
 import express from 'express';
-const bodyParser = require('body-parser');
+import bodyParser from 'body-parser';
 
 import { analyze } from '@@modules/nl';
 import { synthesize } from '@@modules/polly';

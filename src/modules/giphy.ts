@@ -1,5 +1,5 @@
 import keys from '@@keys';
-const http = require('http');
+import http from 'http';
 
 export async function getRandomGif(tag: string, rating: string = 'g', fmt: string = 'json') {
   return new Promise((resolve, reject) => {
