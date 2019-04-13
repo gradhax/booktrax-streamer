@@ -55,3 +55,32 @@ export function analyze(text) {
       });
     });
 }
+
+export function analyzeEntities(text) {
+  const document = {
+    content: text,
+    type: 'PLAIN_TEXT',
+  };
+
+  return new Promise((resolve, reject) => {
+    client
+      .analyzeEntities({document: document})
+      .then(([ result ]) => {
+        console.log('nl.analyzeEntities(): API responded');
+        if (!result || !result.entities || result.entities.length < 1) {
+          reject({
+            error: true,
+            msg: 'No entity data',
+          });
+        }
+        resolve(result.entities[0]);
+      })
+      .catch(err => {
+        console.error('nl.analyzeEntities(): error', err);
+        reject({
+          error:true,
+          errorObj: err,
+        });
+      })
+  });
+}
