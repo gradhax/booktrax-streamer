@@ -1,10 +1,14 @@
 import express from 'express';
+const bodyParser = require('body-parser');
 
 import { analyze } from '@@modules/nl';
 import { synthesize } from '@@modules/polly';
 import { getRandomGif } from '@@modules/giphy';
 
+const app = express();
 const router = express.Router();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 router.post('/analyze', async (req, res, next) => {
   const text = `
@@ -43,7 +47,12 @@ the fall of Napoleon.
 });
 
 router.post('/getGif', async (req, res, next) => {
-  const gifTag = 'Mickey Mouse';
+  let gifTag;
+  if (req.body.gifTag)
+    gifTag = req.body.gifTag;
+  else
+    gifTag = 'HACKERS';
+
   const gif = await getRandomGif(gifTag);
   console.log(gif);
 
