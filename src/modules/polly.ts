@@ -1,6 +1,6 @@
 import aws from 'aws-sdk';
-import fs from 'fs';
-import path from 'path';
+import fs, { promises } from 'fs';
+import path, { resolve } from 'path';
 
 import keys from '@@keys';
 import paths from '@@src/paths';
@@ -33,7 +33,7 @@ const polly = (function init() {
   return polly;
 })();
 
-export function syntheisze(text: string) {
+export function synthesize(text: string, voiceId: string = "Kimberly") {
   if (!polly) {
     throw new Error('polly is not initialized');
   }
@@ -41,7 +41,7 @@ export function syntheisze(text: string) {
   const params = {
     'Text': text,
     'OutputFormat': 'mp3',
-    'VoiceId': 'Kimberly'
+    'VoiceId': voiceId
   };
 
   return new Promise((resolve, reject) => {
