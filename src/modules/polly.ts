@@ -9,7 +9,11 @@ const polly = (function init() {
   const { awsKeys } = keys;
 
   console.info(
-    '>>> polly is initializing, \n>>> keys: %o\n>>> distPath: %s',
+`
+>>> polly is initializing
+>>> keys: %o
+>>> distPath: %s
+`,
     awsKeys,
     paths.dist
   );

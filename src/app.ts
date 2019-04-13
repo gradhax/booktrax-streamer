@@ -1,21 +1,41 @@
-import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import express, { Request, NextFunction } from 'express';
 
-import { synthesize } from '@@modules/polly';
-import { analyzeSentiment } from '@@modules/sentiment';
+import apis from './apis';
 
-async function func() {
-  const sentiment = await analyzeSentiment("Hello, world! This is a very positive sentence, you are beautiful! This is so so horribly sad, you are dumb!");
-  console.log(22, sentiment);
+const port = 4001;
+const app = express();
+
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(log());
+app.use(apis());
+app.use(noMatch());
+app.listen(port, () => {
+  console.log('App is listening on port: %s', port);
+});
+
+function log() {
+  return (req, res, next: NextFunction) => {
+    console.info(
+      '%s - %s %j %j',
+      new Date().toISOString(),
+      req.url,
+      req.params,
+      req.body,
+    );
+    next();
+  };
 }
 
-func();
-
-// sentiment.sentences.forEach(sentence => {
-//   synthesize(sentence.text.content);
-// })
-//synthesize('Hi, we are team gradhax');
-
-const app = express();
-app.listen(4001, () => {
-  console.log('Listening...', 4001);
-});
+function noMatch() {
+  return (req, res, next) => {
+    res.send({
+      error: true,
+      msg: 'No matched route',
+      requestUrl: req.url,
+    });
+  };
+}

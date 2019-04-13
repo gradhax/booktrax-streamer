@@ -11,7 +11,11 @@ try {
     awsKeys,
   };
 } catch (err) {
-  console.error(`You haven't setup keys. Make sure you have it in the right location`);
+  console.error(
+    `You haven't setup keys. Make sure you have it in the right location: %s`,
+    PRIVATE_KEY_PATH,
+  );
+  throw new Error('no keys');
 }
 
 export default keys;
