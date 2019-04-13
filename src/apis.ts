@@ -2,6 +2,7 @@ import express from 'express';
 
 import { analyze } from '@@modules/nl';
 import { synthesize } from '@@modules/polly';
+import { getRandomGif } from '@@modules/giphy';
 
 const router = express.Router();
 
@@ -38,6 +39,17 @@ the fall of Napoleon.
       sentences,
     },
     voices,
+  });
+});
+
+router.post('/getGif', async (req, res, next) => {
+  const gifTag = 'Mickey Mouse';
+  const gif = await getRandomGif(gifTag);
+  console.log(gif);
+
+  res.send({
+    gif_tag: gifTag,
+    gif_url: gif,
   });
 });
 
