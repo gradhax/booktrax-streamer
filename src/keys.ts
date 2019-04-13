@@ -6,9 +6,12 @@ let keys;
 
 try {
   const awsKeys = require(`${PRIVATE_KEY_PATH}/aws.keys`);
+  const giphyKeys = require(`${PRIVATE_KEY_PATH}/giphy.keys`);
+
   keys = {
     ...keys,
     awsKeys,
+    giphyKeys,
   };
 } catch (err) {
   console.error(

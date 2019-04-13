@@ -1,7 +1,6 @@
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express, { Request, NextFunction } from 'express';
-
 import apis from './apis';
 
 const port = 4001;
