@@ -37,7 +37,11 @@ const polly = (function init() {
   return polly;
 })();
 
-export function synthesize(text: string, voiceId: string = "Kimberly") {
+export function synthesize({
+  requestId,
+  text,
+  voiceId = "Kimberly",
+}) {
   if (!polly) {
     throw new Error('polly is not initialized');
   }
@@ -49,20 +53,26 @@ export function synthesize(text: string, voiceId: string = "Kimberly") {
   };
 
   return new Promise((resolve, reject) => {
+    console.log('polly.synthesize(): begin synthesizing, requestId: %s', requestId);
+
     polly.synthesizeSpeech(params, (err, data) => {
       if (err) {
-        console.log('polly synthesizeSpeech(): fail', err.code);
-        reject(-2);
+        console.error('polly.synthesize(): fail', err.code);
+        reject({
+          error: true,
+        });
       } else if (data) {
+        console.log('polly.synthesize(): API responded', data);
+
         if (data.AudioStream instanceof Buffer) {
-          const ts = Date.now();
-          fs.writeFile(`${paths.dist}/speech-${ts}.mp3`, data.AudioStream, function(err) {
-            if (err) {
-              console.log(err);
-              reject(-1);
-            }
-            console.log('polly synthesizeSpeech(): The file was saved!');
-            resolve('good');
+          resolve({
+            data,
+            requestId,
+            ts: Date.now(),
+          });
+        } else {
+          reject({
+            error: true,
           });
         }
       }

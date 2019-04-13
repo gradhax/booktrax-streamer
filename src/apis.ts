@@ -21,12 +21,23 @@ the façades of nearly all the houses in Verrières to be rebuilt since
 the fall of Napoleon.
 `;
 
-  const analyzedSentences = await analyze(text);
+  const { documentSentiment, sentences } = await analyze(text) as any;
+  const voicePromise = sentences.map(({ text }, idx) => {
+    text.$id = idx;
+
+    return synthesize({
+      requestId: idx,
+      text: text.content,
+    });
+  });
+  const voices = await Promise.all(voicePromise);
 
   res.send({
-    result: {
-      analyzedSentences,
+    analyze: {
+      documentSentiment,
+      sentences,
     },
+    voices,
   });
 });
 

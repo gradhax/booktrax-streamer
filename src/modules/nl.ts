@@ -36,6 +36,8 @@ export function analyze(text) {
     client
       .analyzeSentiment({document: document})
       .then(([ result ]) => {
+        console.log('nl.analyze(): API responded');
+
         if (!result || !result.sentences) {
           reject({
             error: true,
