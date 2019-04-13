@@ -7,7 +7,7 @@ export async function getRandomGif(tag: string, rating: string = 'g', fmt: strin
     const options = {
         host: 'api.giphy.com',
         port: 80,
-        path: `/v1/gifs/random?api_key=${giphyKeys.apiKey}&rating=${rating}&fmt=${fmt}`,
+        path: `/v1/gifs/random?api_key=${giphyKeys.apiKey}&tag=${escape(tag)}&rating=${rating}&fmt=${fmt}`,
         method: 'GET',
     }
 
@@ -20,7 +20,7 @@ export async function getRandomGif(tag: string, rating: string = 'g', fmt: strin
         });
         res.on('end', () => {
             const giphyRes = JSON.parse(body.join(''));
-            resolve(giphyRes.data.embed_url);
+            resolve(giphyRes.data.images.original.url);
         });
         res.on('error', (err) => {
             console.error('giphy.getRandomGif(): Error with get response');
