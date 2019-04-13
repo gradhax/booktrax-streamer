@@ -52,8 +52,8 @@ router.post('/analyze', async (req, res, next) => {
 
 router.post('/getGif', async (req, res, next) => {
   let gifTag;
-  if (req.body.gifTag)
-    gifTag = req.body.gifTag;
+  if (req.body.gif_tag)
+    gifTag = req.body.gif_tag;
   else
     gifTag = 'HACKERS';
 
