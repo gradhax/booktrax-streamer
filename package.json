@@ -18,6 +18,7 @@
     "@types/node": "^11.13.4"
   },
   "dependencies": {
+    "aws-sdk": "^2.437.0",
     "babel-plugin-module-resolver": "^3.2.0",
     "express": "^4.16.4"
   }

@@ -12,18 +12,11 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "paths": {
-      "@@apis/*": [
-        "src/apis/*"
-      ],
-      "@@modules/*": [
-        "src/modules/*"
-      ],
-      "@@src/*": [
-        "src/*"
-      ],
-      "@@utils/*": [
-        "src/utils/*"
-      ],
+      "@@apis/*": [ "src/apis/*" ],
+      "@@keys": [ "src/keys" ],
+      "@@modules/*": [ "src/modules/*" ],
+      "@@src/*": [ "src/*" ],
+      "@@utils/*": [ "src/utils/*" ],
     },
     "strictNullChecks": true,
     "target": "es6"
