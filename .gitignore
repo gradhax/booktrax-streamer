@@ -146,3 +146,5 @@ Temporary Items
 
 __keys/
 dist/
+
+package-lock.json
