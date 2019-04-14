@@ -1,40 +1,23 @@
+import axios from 'axios';
 import keys from '@@keys';
-import http from 'http';
+
+const HOST = 'http://api.giphy.com';
 
 export async function getRandomGif(tag: string, rating: string = 'g', fmt: string = 'json') {
+  console.log('giphy.getRandomGif(): request with tag: %s', tag);
+
   return new Promise((resolve, reject) => {
     const { giphyKeys } = keys;
-    const options = {
-        host: 'api.giphy.com',
-        port: 80,
-        path: `/v1/gifs/random?api_key=${giphyKeys.apiKey}&tag=${escape(tag)}&rating=${rating}&fmt=${fmt}`,
-        method: 'GET',
-    }
 
-    http.get(options, (res) => {
-        let body: string[] = [];
+    axios.get(`${HOST}/v1/gifs/random?api_key=${giphyKeys.apiKey}&tag=${escape(tag)}&rating=${rating}&fmt=${fmt}`)
+      .then(({ data }) => {
+        console.log('giphy.getRandomGif(): API responded:\n%o', data);
 
-        res.setEncoding('utf-8');
-        res.on('data', (chunk) => {
-            body.push(chunk);
-        });
-        res.on('end', () => {
-            const giphyRes = JSON.parse(body.join(''));
-            resolve(giphyRes.data.images.original.url);
-        });
-        res.on('error', (err) => {
-            console.error('giphy.getRandomGif(): Error with get response');
-            reject({
-              error: true,
-              errorObj: err,
-            });
-        });
-    }).on('error', (err) => {
-        console.error('giphy.getRandomGif(): Error with http get');
-        reject({
-          error: true,
-          errorObj: err,
-        });
-    });
+        const result = data && data.images && data.images.original && data.images.original.url;
+        resolve(result || 'none');
+      })
+      .catch((err) => {
+        reject(err);
+      });
   });
 }
