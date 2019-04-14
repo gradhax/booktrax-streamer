@@ -2,6 +2,9 @@ import fs from 'fs';
 import language from '@google-cloud/language';
 import path from 'path';
 
+import { getRandomInt } from '@@utils/random';
+import log from '@@modules/log';
+
 const PROJECT_ID = 'gradhax-237506';
 
 const privateKeyFilePath = path.resolve(__dirname, '..', '..', '__keys', 'gcp.keys.json');
@@ -9,7 +12,7 @@ const privateKeyFilePath = path.resolve(__dirname, '..', '..', '__keys', 'gcp.ke
 const client = (function init() {
   try {
     if (!fs.existsSync(privateKeyFilePath)) {
-      console.error('Key not found: %s', privateKeyFilePath);
+      log('Key not found: %s', privateKeyFilePath);
       throw new Error('No key file');
     }
 
@@ -19,13 +22,13 @@ const client = (function init() {
     });
     return _client;
   } catch (err) {
-    console.error('Error initializing nl client', err);
+    log('Error initializing nl client', err);
     throw err;
   }
 })();
 
 export function analyze(text) {
-  console.log('nl.analyze(): begin parsing, text of length: %s', text.length);
+  log('nl.analyze(): begin parsing, text of length: %s', text.length);
 
   const document = {
     content: text,
@@ -36,7 +39,7 @@ export function analyze(text) {
     client
       .analyzeSentiment({document: document})
       .then(([ result ]) => {
-        console.log('nl.analyze(): API responded');
+        log('nl.analyze(): API responded');
 
         if (!result || !result.sentences) {
           reject({
@@ -47,7 +50,7 @@ export function analyze(text) {
         resolve(result);
       })
       .catch(err => {
-        console.error('nl.analyze(): error', err);
+        log('nl.analyze(): error', err);
         reject({
           error: true,
           errorObj: err,
@@ -66,17 +69,19 @@ export function analyzeEntities(text) {
     client
       .analyzeEntities({document: document})
       .then(([ result ]) => {
-        console.log('nl.analyzeEntities(): API responded');
+        log('nl.analyzeEntities(): API responded');
+
         if (!result || !result.entities || result.entities.length < 1) {
           reject({
             error: true,
             msg: 'No entity data',
           });
         }
-        resolve(result.entities[0]);
+        const idx = getRandomInt(0, result.entities.length);
+        resolve(result.entities[idx]);
       })
       .catch(err => {
-        console.error('nl.analyzeEntities(): error', err);
+        log('nl.analyzeEntities(): error', err);
         reject({
           error:true,
           errorObj: err,

@@ -3,20 +3,13 @@ import fs, { promises } from 'fs';
 import path, { resolve } from 'path';
 
 import keys from '@@keys';
+import log from '@@modules/log';
 import paths from '@@src/paths';
 
 const polly = (function init() {
   const { awsKeys } = keys;
 
-  console.info(
-`
->>> polly is initializing
->>> keys: %o
->>> distPath: %s
-`,
-    awsKeys,
-    paths.dist
-  );
+  log('polly is initializing, keys: %o distPath: %s', awsKeys, paths.dist);
 
   const polly = new aws.Polly({
     credentials: new aws.Credentials({
@@ -30,7 +23,7 @@ const polly = (function init() {
   try {
     fs.mkdirSync(paths.dist, { recursive: true });
   } catch (err) {
-    console.error(err);
+    log('', err);
     throw new Error('polly, error creating dist path');
   }
 
@@ -53,16 +46,16 @@ export function synthesize({
   };
 
   return new Promise((resolve, reject) => {
-    console.log('polly.synthesize(): begin synthesizing, requestId: %s', requestId);
+    log('polly.synthesize(): begin synthesizing, requestId: %s', requestId);
 
     polly.synthesizeSpeech(params, (err, data) => {
       if (err) {
-        console.error('polly.synthesize(): fail', err.code);
+        log('polly.synthesize(): fail', err.code);
         reject({
           error: true,
         });
       } else if (data) {
-        console.log('polly.synthesize(): API responded', data);
+        log('polly.synthesize(): API responded, characters: %s', data.RequestCharacters);
 
         if (data.AudioStream instanceof Buffer) {
           resolve({
