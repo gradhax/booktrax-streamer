@@ -19,7 +19,7 @@ export async function getRandomGif(tag: string, rating: string = 'g', fmt: strin
         resolve(result);
       })
       .catch((err) => {
-        reject(err);
+        resolve('');
       });
   });
 }

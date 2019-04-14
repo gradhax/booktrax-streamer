@@ -24,6 +24,7 @@ Verrières is sheltered on the north by a high mountain which is one of the bran
     const entity = await analyzeEntities(analyzeText) as any;
     const voices = await Promise.all(voicePromise);
     const gifUrl = await getRandomGif(entity.name);
+
     return {
       analyze: {
         documentSentiment,
@@ -38,15 +39,27 @@ Verrières is sheltered on the north by a high mountain which is one of the bran
     };
   });
 
-  const payload = await Promise.all(promises);
+  const payloads = await Promise.all(promises);
   // console.log('payload', payload);
 
-  socket.emit(
-    'response-analyze',
-    payload,
-    () => {
-      log('acknowledgement, done()');
-    },
-  );
+  sendInSequence(socket, payloads, 0);
   });
 };
+
+function sendInSequence(socket, payloads, idx) {
+  if (idx < payloads.length) {
+    log('sendInSequence(): send data of idx: %s', idx);
+
+    socket.emit(
+      'response-analyze',
+      {
+        payloadIdx: idx,
+        ...payloads[idx],
+      },
+      () => {
+        log('acknowledgement, done()');
+        sendInSequence(socket, payloads, idx + 1);
+      },
+    );
+  }
+}
