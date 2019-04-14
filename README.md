@@ -9,4 +9,5 @@ BookTrax Streamer integrates with the following APIs:
 * Google Cloud Natural Language API - sentiment analysis and entity extraction
 * Amazon AWS Polly - text-to-speech synthesis
 * Giphy API - get a random relevant GIF based on a tag, in this case the most relevant entity
+
 The BookTrax Streamer application keeps a communication channel open with the client app with a web socket.
