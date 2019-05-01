@@ -21,7 +21,9 @@ const polly = (function init() {
   });
 
   try {
-    fs.mkdirSync(paths.dist, { recursive: true });
+    if (!fs.existsSync(paths.dist)) {
+      fs.mkdirSync(paths.dist, { recursive: true });
+    }
   } catch (err) {
     log('', err);
     throw new Error('polly, error creating dist path');
