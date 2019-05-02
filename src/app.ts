@@ -8,7 +8,7 @@ import behavior from './behavior';
 import { init } from '@@modules/io';
 import log from '@@modules/log';
 
-const port = 4001;
+const port = process.env.PORT || 4001;
 const app = express();
 
 app.use(cors());
