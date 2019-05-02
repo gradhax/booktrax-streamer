@@ -1,20 +1,30 @@
 import aws from 'aws-sdk';
-import fs, { promises } from 'fs';
-import path, { resolve } from 'path';
+import fs from 'fs';
 
-import keys from '@@keys';
 import log from '@@modules/log';
 import paths from '@@src/paths';
 
 const polly = (function init() {
-  const { awsKeys } = keys;
+  const {
+    AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY,
+  } = process.env;
 
-  log('polly is initializing, keys: %o distPath: %s', awsKeys, paths.dist);
+  if (!AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
+    throw new Error('[polly] keys are not defined');
+  }
+
+  log(
+    '[polly] initializing, keys: %s, %s distPath: %s',
+    AWS_ACCESS_KEY_ID,
+    AWS_SECRET_ACCESS_KEY,
+    paths.dist,
+  );
 
   const polly = new aws.Polly({
     credentials: new aws.Credentials({
-      accessKeyId: awsKeys.accessKeyId,
-      secretAccessKey: awsKeys.secretAccessKey,
+      accessKeyId: AWS_ACCESS_KEY_ID as string,
+      secretAccessKey: AWS_SECRET_ACCESS_KEY as string,
     }),
     region: 'us-west-2',
     signatureVersion: 'v4',

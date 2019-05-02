@@ -148,3 +148,4 @@ __keys/
 dist/
 
 package-lock.json
+gcp.keys.json

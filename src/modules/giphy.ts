@@ -1,5 +1,4 @@
 import axios from 'axios';
-import keys from '@@keys';
 
 import log from '@@modules/log';
 
@@ -9,9 +8,9 @@ export async function getRandomGif(tag: string, rating: string = 'g', fmt: strin
   log('giphy.getRandomGif(): begin finding: %s', tag);
 
   return new Promise((resolve, reject) => {
-    const { giphyKeys } = keys;
+    const { GIPHY_API_KEY } = process.env;
 
-    axios.get(`${HOST}/v1/gifs/random?api_key=${giphyKeys.apiKey}&tag=${escape(tag)}&rating=${rating}&fmt=${fmt}`)
+    axios.get(`${HOST}/v1/gifs/random?api_key=${GIPHY_API_KEY}&tag=${escape(tag)}&rating=${rating}&fmt=${fmt}`)
       .then(({ data }) => {
         log('giphy.getRandomGif(): API responded, found %o', data.data.id);
 

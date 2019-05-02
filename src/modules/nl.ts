@@ -2,24 +2,27 @@ import fs from 'fs';
 import language from '@google-cloud/language';
 import path from 'path';
 
+import paths from '@@src/paths';
 import { getRandomInt } from '@@utils/random';
 import log from '@@modules/log';
 
 const PROJECT_ID = 'gradhax-237506';
 
-const privateKeyFilePath = path.resolve(__dirname, '..', '..', '__keys', 'gcp.keys.json');
+// const privateKeyFilePath = path.resolve(__dirname, '..', '..', '__keys', 'gcp.keys.json');
 
 const client = (function init() {
   try {
-    if (!fs.existsSync(privateKeyFilePath)) {
-      log('Key not found: %s', privateKeyFilePath);
+    if (!fs.existsSync(paths.gcpKeys)) {
+      log('Key not found: %s', paths.gcpKeys);
       throw new Error('No key file');
     }
 
     const _client = new language.LanguageServiceClient({
       projectId: PROJECT_ID,
-      keyFilename: privateKeyFilePath,
+      keyFilename: paths.gcpKeys,
     });
+    console.log('[nl] client connection success', _client.auth);
+
     return _client;
   } catch (err) {
     log('Error initializing nl client', err);
