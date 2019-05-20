@@ -11,6 +11,8 @@ module.exports = {
         },
       }
     ],
+    // 'babel-plugin-dynamic-import-node',
+    'dynamic-import-node',
   ],
   "presets": [
     [ "@babel/preset-env" ],

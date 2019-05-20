@@ -8,8 +8,6 @@ import log from '@@modules/log';
 
 const PROJECT_ID = 'gradhax-237506';
 
-// const privateKeyFilePath = path.resolve(__dirname, '..', '..', '__keys', 'gcp.keys.json');
-
 const client = (function init() {
   try {
     if (!fs.existsSync(paths.gcpKeys)) {

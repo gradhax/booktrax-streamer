@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "NODE_ENV=local node src/launch.js",
     "start": "node src/launch.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,6 +23,7 @@
     "@google-cloud/language": "^2.1.0",
     "aws-sdk": "^2.437.0",
     "axios": "^0.18.0",
+    "babel-plugin-dynamic-import-node": "^2.2.0",
     "babel-plugin-module-resolver": "^3.2.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",

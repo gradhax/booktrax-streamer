@@ -7,28 +7,32 @@ const state = {
 export function init(server, behavior) {
   const io = socketIO(server);
   io.on('connection', (socket) => {
-    const ts = new Date().toISOString();
-    const socketId = socket.id;
-    const origin = socket.handshake.headers.origin;
-    console.log(
-      `%s io.init(): connection succeeds, origin: %s id: %s`,
-      ts,
-      socket.handshake.headers.origin,
-      socket.id,
-    );
+    try {
+      const ts = new Date().toISOString();
+      const socketId = socket.id;
+      const origin = socket.handshake.headers.origin;
+      console.log(
+        `%s io.init(): connection succeeds, origin: %s id: %s`,
+        ts,
+        socket.handshake.headers.origin,
+        socket.id,
+      );
 
-    state.io = io;
-    socket.emit('response-connection', {
-      origin,
-      socketId,
-    });
+      state.io = io;
+      socket.emit('response-connection', {
+        origin,
+        socketId,
+      });
 
-    socket.emit('debug', 'just for debugging');
-    io.to(socket.id).emit('debug', `debugging (private msg) to ${socket.id}`);
+      socket.emit('debug', 'just for debugging');
+      io.to(socket.id).emit('debug', `debugging (private msg) to ${socket.id}`);
 
-    behavior && behavior(socket);
+      behavior && behavior(socket);
+    } catch (err) {
+      console.log('socket connection error');
+      socket.emit('error', 'conneciton-error');
+    }
   });
-
   io.sockets.emit('debug', 'msg for everyone');
 }
 

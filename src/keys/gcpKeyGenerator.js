@@ -1,7 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
+const isLocal = process.env.NODE_ENV === 'local';
 const keyPath = path.resolve(__dirname, 'gcp.keys.json');
+const localKeyPath = path.resolve(__dirname, 'gcp.keys.local.json');
 
 const {
   GOOGLE_KEY_TYPE,
@@ -16,7 +18,7 @@ const {
   GOOGLE_KEY_CLIENT_X509_CERT_URL,
 } = process.env;
 
-const gcpKey = {
+let gcpKey = {
   "type": GOOGLE_KEY_TYPE,
   "project_id": GOOGLE_KEY_PROJECT_ID,
   "private_key_id": GOOGLE_KEY_PRIVATE_KEY_ID,
@@ -31,5 +33,9 @@ const gcpKey = {
 
 module.exports = () => {
   console.log(`[gcpKeyGenerator] generating at ${keyPath}`);
+  if (isLocal) {
+    gcpKey = require(localKeyPath);
+  }
+  console.log('key.json would contain: %j', gcpKey);
   fs.writeFileSync(keyPath, JSON.stringify(gcpKey, null, 2).replace(/\\\\/g, '\\'));
 };

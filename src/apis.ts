@@ -1,15 +1,10 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 
 import { analyze, analyzeEntities } from '@@modules/nl';
 import { synthesize } from '@@modules/polly';
 import { getRandomGif } from '@@modules/giphy';
-import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 
-const app = express();
 const router = express.Router();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 router.post('/analyze', async (req, res, next) => {
   const { analyze_text } = req.body;
@@ -48,36 +43,9 @@ Verrières is sheltered on the north by a high mountain which is one of the bran
   });
 
   const result = await Promise.all(promises);
-
   console.log('result', result);
 
   res.send(result);
-  
-  // const { documentSentiment, sentences } = await analyze(analyzeText) as any;
-  // const voicePromise = sentences.map(({ text }, idx) => {
-  //   text.$requestId = idx;
-  //   return synthesize({
-  //     requestId: idx,
-  //     text: text.content,
-  //   });
-  // });
-
-  // const voices = await Promise.all(voicePromise);
-  // const entity = await analyzeEntities(analyzeText);
-  // const gifUrl = await getRandomGif(entity.name);
-
-  // res.send({
-  //   analyze: {
-  //     documentSentiment,
-  //     sentences,
-  //   },
-  //   entity: {
-  //     name: entity.name,
-  //     salience: entity.salience,
-  //     gifUrl: gifUrl,
-  //   },
-  //   voices,
-  // });
 });
 
 export default () => router;
