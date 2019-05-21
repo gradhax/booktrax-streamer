@@ -62,7 +62,7 @@ export function synthesize({
 
     polly.synthesizeSpeech(params, (err, data) => {
       if (err) {
-        log('polly.synthesize(): fail', err.code);
+        log('polly.synthesize(): fail', err);
         reject({
           error: true,
         });

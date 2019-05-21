@@ -1,5 +1,11 @@
+const fs = require('fs');
+const path = require('path');
+const localKeyInitPath = path.resolve(__dirname, 'keys', 'localKeyInit.js');
+
 require('./keys/gcpKeyGenerator.js')();
-require('./keys/localKeyInit.js')();
+if (fs.existsSync(localKeyInitPath)) {
+  require('./keys/localKeyInit.js')();
+}
 
 (async () => {
   try {
