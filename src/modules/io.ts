@@ -25,7 +25,8 @@ export function init(server, behavior) {
       });
 
       socket.emit('debug', 'just for debugging');
-      io.to(socket.id).emit('debug', `debugging (private msg) to ${socket.id}`);
+      io.to(socket.id)
+        .emit('debug', `debugging (private msg) to ${socket.id}`);
 
       behavior && behavior(socket);
     } catch (err) {
