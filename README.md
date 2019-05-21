@@ -30,6 +30,9 @@ routine:
   return (m, S, e, u, V)
 ```
 
+## Demo
+The application is deployed at [https://booktrax-web.herokuapp.com/](https://booktrax-web.herokuapp.com/). It might not longer be available in the near future.
+
 ## Third-party APIs
 BookTrax Streamer integrates with the following APIs:
 * **Google Cloud Natural Language API** - sentiment analysis and entity extraction
