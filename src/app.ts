@@ -14,7 +14,6 @@ if (fs.existsSync(localKeyInitPath)) {
     const { default: express } = (await import('express'));
     const http = await import('http');
 
-    const apis = (await import('./apis')).default;
     const behavior = (await import('./behavior')).default;
     const { init } = await import('@@modules/io');
     const log = (await import('@@modules/log')).default;
@@ -26,7 +25,6 @@ if (fs.existsSync(localKeyInitPath)) {
     app.use(bodyParser.urlencoded({ extended: true }));
     app.use(bodyParser.json());
     app.use(httpLogger());
-    app.use(apis());
     app.use(noMatch());
 
     const server = http.createServer(app);
