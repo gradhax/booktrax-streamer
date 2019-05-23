@@ -16,7 +16,7 @@ Behavior **AnalyzeEntities** is a function N(t): e, where t is a text and e is t
 
 Behavior **Synthesize** is a function Y(s): v, where s is a sentence or any raw text and v is a synthesized human voice reading loud the given sentence.
 
-Behabior **getRandomGif** is a function G(e): u, where e is an entity or a word and u is a url of an image most likely representing the entity.
+Behavior **getRandomGif** is a function G(e): u, where e is an entity or a word and u is a url of an image most likely representing the entity.
 
 The core routine of booktrax runs as the following.
 ```
