@@ -3,7 +3,7 @@
 
 Utilizing AI services from Amazon and Google based on deep learning models, text is analyzed for **sentiment and entity extraction** that is used to play appropriate **background soundtracks** and display a relevant **GIF** via the Giphy API. As the narrator reads the text, users can also follow along on the screen via *text highlighting*.
 
-The client side application interacts with server side via **web socket**.
+The [client side application (booktrax-web)](https://github.com/gradhax/booktrax-web) interacts with server side via **web socket**.
 
 ![demo](https://github.com/gradhax/booktrax-streamer/blob/master/docs/demo.gif?raw=true)
 
@@ -12,7 +12,7 @@ Let raw text T be a sequence of paragraph p (p1p2p3...pn), where a paragraph end
 
 Behavior **Analyze** is a function A(p): (m, S), where p is a paragraph, m is a document sentiment and S is a sequence of sentences s.
 
-Behavior **AnalyzeEntities** is a function N(t): e, where t is a text and e is the most prominent entity that appears in the text.
+Behavior **AnalyzeEntities** is a function N(t): e, where t is a text and e is the most prominent entity that appears in the text.ㄷ
 
 Behavior **Synthesize** is a function Y(s): v, where s is a sentence or any raw text and v is a synthesized human voice reading loud the given sentence.
 
